@@ -146,7 +146,7 @@ export default function Page() {
 
         <div className="mt-6 rounded-2xl border bg-white p-6 shadow-sm">
           <p className="text-sm">
-            Email: <strong>hello@nutme.com</strong> (set up next)
+            Email: <strong>nutmetreats@gmail.com</strong> (set up next)
           </p>
           <div className="mt-4 rounded-2xl bg-neutral-50 p-4 text-xs text-neutral-600">
             “This food is made in a home kitchen and is not inspected by the Texas Department of State Health Services.”
