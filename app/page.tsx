@@ -12,10 +12,10 @@ export default function Page() {
             <a href="#order" className="text-neutral-600 hover:text-neutral-900">Order</a>
           </nav>
           <a
-            href="#order"
-            className="rounded-2xl bg-neutral-900 px-4 py-2 text-sm text-white hover:bg-neutral-800"
+            href="mailto:nutmetreats@gmail.com?subject=NutMe%20Order%20Inquiry"
+            className="rounded-2xl bg-neutral-900 px-5 py-3 text-white"
           >
-            Order
+            Pre-order / Inquire
           </a>
         </div>
       </header>
