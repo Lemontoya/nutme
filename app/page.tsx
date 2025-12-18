@@ -1,3 +1,34 @@
+"use client";
+function openOrderEmail(params: {
+  name: string;
+  email: string;
+  phone: string;
+  product: string;
+  quantity: string;
+  notes: string;
+}) {
+  const subject = `NutMe Order Inquiry — ${params.name || "Customer"}`;
+
+  const body = [
+    `Name: ${params.name}`,
+    `Email: ${params.email}`,
+    `Phone: ${params.phone || "(not provided)"}`,
+    ``,
+    `Product: ${params.product}`,
+    `Quantity: ${params.quantity}`,
+    ``,
+    `Notes:`,
+    `${params.notes || "(none)"}`,
+    ``,
+    `— Sent from nutmetreats.com`,
+  ].join("\n");
+
+  const mailto = `mailto:nutmetreats@gmail.com?subject=${encodeURIComponent(
+    subject
+  )}&body=${encodeURIComponent(body)}`;
+
+  window.location.href = mailto;
+}
 export default function Page() {
   return (
     <main className="min-h-screen bg-white text-neutral-900">
@@ -139,20 +170,114 @@ export default function Page() {
 
       {/* Order */}
       <section id="order" className="mx-auto max-w-6xl px-4 py-16">
-        <h2 className="text-2xl font-semibold md:text-3xl">Order / Inquire</h2>
-        <p className="mt-2 max-w-2xl text-neutral-600">
-          For now, orders are handled by email while we finalize checkout.
+  <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+    Order / Inquire
+  </h2>
+  <p className="mt-2 max-w-2xl text-neutral-600">
+    For now, orders are handled by email while we finalize checkout.
+  </p>
+
+  <div className="mt-8 rounded-2xl border border-neutral-200 p-6 md:p-8">
+    <p className="text-sm text-neutral-600">
+      Email: <span className="font-semibold text-neutral-900">nutmetreats@gmail.com</span>
+    </p>
+
+    <form
+      className="mt-6 grid gap-4 md:grid-cols-2"
+      onSubmit={(e) => {
+        e.preventDefault();
+
+        const form = e.currentTarget as HTMLFormElement;
+        const fd = new FormData(form);
+
+        openOrderEmail({
+          name: String(fd.get("name") || ""),
+          email: String(fd.get("email") || ""),
+          phone: String(fd.get("phone") || ""),
+          product: String(fd.get("product") || "Cocoa Maple Candied Pecans & Almonds"),
+          quantity: String(fd.get("quantity") || "1"),
+          notes: String(fd.get("notes") || ""),
+        });
+      }}
+    >
+      <div className="grid gap-2">
+        <label className="text-sm font-medium" htmlFor="name">Full name</label>
+        <input
+          id="name"
+          name="name"
+          required
+          className="rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900"
+          placeholder="Your name"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <label className="text-sm font-medium" htmlFor="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          className="rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900"
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <label className="text-sm font-medium" htmlFor="phone">Phone (optional)</label>
+        <input
+          id="phone"
+          name="phone"
+          className="rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900"
+          placeholder="(555) 555-5555"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <label className="text-sm font-medium" htmlFor="quantity">Quantity</label>
+        <select
+          id="quantity"
+          name="quantity"
+          className="rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900"
+          defaultValue="1"
+        >
+          <option value="1">1 bag</option>
+          <option value="2">2 bags</option>
+          <option value="3">3 bags</option>
+          <option value="4">4 bags</option>
+          <option value="5">5 bags</option>
+          <option value="6">6 bags</option>
+          <option value="10">10 bags</option>
+        </select>
+      </div>
+
+      <div className="md:col-span-2 grid gap-2">
+        <label className="text-sm font-medium" htmlFor="notes">Notes / Special requests</label>
+        <textarea
+          id="notes"
+          name="notes"
+          rows={4}
+          className="rounded-xl border border-neutral-200 px-4 py-3 outline-none focus:ring-2 focus:ring-neutral-900"
+          placeholder="Pickup date/time, gift note, allergy questions, etc."
+        />
+      </div>
+
+      <div className="md:col-span-2 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <p className="text-xs text-neutral-500">
+          “This food is made in a home kitchen and is not inspected by the Texas Department of State Health Services.”
         </p>
 
-        <div className="mt-6 rounded-2xl border bg-white p-6 shadow-sm">
-          <p className="text-sm">
-            Email: nutmetreats@gmail.com (orders & inquiries)
-          </p>
-          <div className="mt-4 rounded-2xl bg-neutral-50 p-4 text-xs text-neutral-600">
-            “This food is made in a home kitchen and is not inspected by the Texas Department of State Health Services.”
-          </div>
-        </div>
-      </section>
+        <button
+          type="submit"
+          className="rounded-2xl bg-neutral-900 px-5 py-3 text-sm font-medium text-white"
+        >
+          Send order email
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
 
       {/* FAQ */}
       <section id="faq" className="border-t bg-neutral-50">
